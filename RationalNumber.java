@@ -19,26 +19,30 @@ public class RationalNumber extends RealNumber
   *@return the numerator
   */
   public int getNumerator(){
-    return 0;
+    return numerator;
   }
   /**
   *@return the denominator
   */
   public int getDenominator(){
-    return 0;
+    return denominator;
   }
   /**
   *@return a new RationalNumber that has the same numerator
   *and denominator as this RationalNumber but reversed.
   */
   public RationalNumber reciprocal(){
-    return null;
-  }
+    int n = numerator;
+    int d = denominator;
+  return null;}
   /**
   *@return true when the RationalNumbers have the same numerators and denominators, false otherwise.
   */
   public boolean equals(RationalNumber other){
-    return false;
+    if (this.numerator == other.numerator && this.denominator == other.denominator){
+      return true;
+    }
+    else {return false;}
   }
 
 
@@ -46,7 +50,7 @@ public class RationalNumber extends RealNumber
   *@return the value expressed as "3/4" or "8/3"
   */
   public String toString(){
-    return "0";
+    return numerator + "/" + denominator;
   }
 
 
@@ -57,9 +61,28 @@ public class RationalNumber extends RealNumber
   *@return the value of the GCD
   */
   private static int gcd(int a, int b){
+    int whole = a / b;
+    int whol = b / a;
+    int GC;
     /*use euclids method or a better one*/
-    return 0;
-  }
+    if (a >= b){
+      for (;a % b != 0;){
+        a = b;
+        b = a/b;
+      }}
+      if (b > a){
+        for (;b % a != 0;){
+          b = a;
+          a = whol;
+        }}
+      if (a % b == 0) {
+        GC = b;
+      }
+      if (b % a == 0) {
+        GC = a;
+      }
+  return 0;}
+
 
 
 
@@ -69,7 +92,8 @@ public class RationalNumber extends RealNumber
   *reduced after construction.
   */
   private void reduce(){
-
+    numerator = numerator / gcd(numerator,denominator);
+    denominator = denominator / gcd(numerator,denominator);
   }
 
 
