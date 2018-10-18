@@ -9,10 +9,13 @@ public class RationalNumber extends RealNumber
   */
   public RationalNumber(int nume, int deno){
     super(0);//this value is ignored!
+    numerator = nume;
+    denominator = deno;
+    reduce();
   }
 
   public double getValue(){
-    return 0;//???
+    return numerator / denominator;//???
   }
 
   /**
@@ -32,9 +35,8 @@ public class RationalNumber extends RealNumber
   *and denominator as this RationalNumber but reversed.
   */
   public RationalNumber reciprocal(){
-    int n = numerator;
-    int d = denominator;
-  return null;}
+    RationalNumber q = new RationalNumber(denominator, numerator)
+  return q;}
   /**
   *@return true when the RationalNumbers have the same numerators and denominators, false otherwise.
   */
@@ -61,14 +63,14 @@ public class RationalNumber extends RealNumber
   *@return the value of the GCD
   */
   private static int gcd(int a, int b){
-    int whole = a / b;
-    int whol = b / a;
+    int whole = (int) a/b;
+    int whol = (int) b/a;
     int GC;
     /*use euclids method or a better one*/
     if (a >= b){
       for (;a % b != 0;){
         a = b;
-        b = a/b;
+        b = whole;
       }}
       if (b > a){
         for (;b % a != 0;){
@@ -81,7 +83,7 @@ public class RationalNumber extends RealNumber
       if (b % a == 0) {
         GC = a;
       }
-  return 0;}
+  return GC;}
 
 
 
