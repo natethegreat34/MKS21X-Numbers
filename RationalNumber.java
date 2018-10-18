@@ -9,13 +9,17 @@ public class RationalNumber extends RealNumber
   */
   public RationalNumber(int nume, int deno){
     super(0);//this value is ignored!
+    if (deno == 0){
+      nume = 0;
+      deno = 1;
+    }
     numerator = nume;
     denominator = deno;
     reduce();
   }
 
   public double getValue(){
-    return numerator / denominator;//???
+    return (double) getNumerator() / (double) getDenominator();//???
   }
 
   /**
@@ -35,13 +39,14 @@ public class RationalNumber extends RealNumber
   *and denominator as this RationalNumber but reversed.
   */
   public RationalNumber reciprocal(){
-    RationalNumber q = new RationalNumber(denominator, numerator)
-  return q;}
+    RationalNumber q = new RationalNumber(denominator, numerator);
+  return q;
+}
   /**
   *@return true when the RationalNumbers have the same numerators and denominators, false otherwise.
   */
   public boolean equals(RationalNumber other){
-    if (this.numerator == other.numerator && this.denominator == other.denominator){
+    if (this.getNumerator() == other.getNumerator() && this.getDenominator() == other.getDenominator()){
       return true;
     }
     else {return false;}
@@ -52,7 +57,10 @@ public class RationalNumber extends RealNumber
   *@return the value expressed as "3/4" or "8/3"
   */
   public String toString(){
-    return numerator + "/" + denominator;
+    if (getDenominator() == 1){
+      return "" + getNumerator();
+    }
+    return getNumerator() + "/" + getDenominator();
   }
 
 
@@ -63,29 +71,23 @@ public class RationalNumber extends RealNumber
   *@return the value of the GCD
   */
   private static int gcd(int a, int b){
-    int whole = (int) a/b;
-    int whol = (int) b/a;
-    int GC;
-    /*use euclids method or a better one*/
-    if (a >= b){
-      for (;a % b != 0;){
-        a = b;
-        b = whole;
-      }}
-      if (b > a){
-        for (;b % a != 0;){
-          b = a;
-          a = whol;
-        }}
-      if (a % b == 0) {
-        GC = b;
-      }
-      if (b % a == 0) {
-        GC = a;
-      }
-  return GC;}
-
-
+    if (a < 0){
+      a = a * -1;
+    }
+    while (a > 0 && b > 0) {
+      int prevA = a;
+      a = b;
+      b = (prevA % b);
+    }
+    if (a == 0){
+     return b;
+   }
+    if (b == 0){
+      return a;
+    }
+    return 1;
+  }
+//Credit to Timothy Stransberry for helping me on this.  My previous one was a car wreck.
 
 
   /**
@@ -94,9 +96,14 @@ public class RationalNumber extends RealNumber
   *reduced after construction.
   */
   private void reduce(){
+    if (denominator < 0){
+      numerator = numerator * -1;
+      denominator = denominator * -1;
+    }
+    if (gcd(numerator,denominator) != 0){
     numerator = numerator / gcd(numerator,denominator);
     denominator = denominator / gcd(numerator,denominator);
-  }
+  }}
 
 
 
@@ -107,26 +114,36 @@ public class RationalNumber extends RealNumber
   *Return a new RationalNumber that is the product of this and the other
   */
   public RationalNumber multiply(RationalNumber other){
-    return null;
+    RationalNumber m = new RationalNumber (this.getNumerator() * other.getNumerator(), this.getDenominator() * other.getDenominator() );
+    return m;
   }
 
   /**
   *Return a new RationalNumber that is the this divided by the other
   */
   public RationalNumber divide(RationalNumber other){
-    return null;
+    RationalNumber d = this.reciprocal();
+    return d.multiply(other);
   }
 
   /**
   *Return a new RationalNumber that is the sum of this and the other
   */
   public RationalNumber add(RationalNumber other){
-    return null;
+    int y = this.getNumerator() * other.getDenominator() + other.getNumerator() * this.getDenominator();
+    int x = this.getDenominator() * other.getDenominator();
+    RationalNumber a = new RationalNumber(y,x);
+    a.reduce();
+    return a;
   }
   /**
   *Return a new RationalNumber that this minus the other
   */
   public RationalNumber subtract(RationalNumber other){
-    return null;
+    int v = this.getNumerator() * other.getDenominator() - other.getNumerator() * this.getDenominator();
+    int t = this.getDenominator() * other.getDenominator();
+    RationalNumber s = new RationalNumber(v,t);
+    s.reduce();
+    return s;
   }
 }
